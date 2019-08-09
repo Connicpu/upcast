@@ -1,0 +1,27 @@
+[package]
+name = "upcast"
+version = "0.1.0"
+authors = ["Connie Hilarides <conni_h@outlook.com>"]
+edition = "2018"
+license = "MIT"
+repository = "https://github.com/connicpu/upcast"
+keywords = ["upcast", "supertraits"]
+description = """
+Simple trait for helping along upcasting of dyn supertraits.
+
+```
+pub trait A {}
+pub trait B: A + Upcast<dyn A> {}
+
+// Put this in your library
+impl<'a, T: A + 'a> UpcastFrom<T> for dyn A + 'a {
+    fn up_from(value: &T) -> &(dyn A + 'a) { value }
+    fn up_from_mut(value: &mut T) -> &mut (dyn A + 'a) { value }
+}
+
+// Now your users can do an upcast if needed, or you can within implementations
+fn do_cast(b: &dyn B) -> &dyn A {
+    b.up()
+}
+```
+"""
